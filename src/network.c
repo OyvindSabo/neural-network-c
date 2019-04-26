@@ -38,45 +38,12 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
 
   struct Network network;
 
-  // Create the inputLayer
-  for (int i = 0; i < inputLength; i++)
-  {
-    struct Node node;
-    struct Edge outE;
-    *node.outE = outE;
-    node.value = 0;
-    network.inputLayer[i] = node;
-  }
-
-  // Create the hidden layer
-  for (int i = 0; i < hiddenLength; i++)
-  {
-    struct Node node;
-    struct Edge inE;
-    struct Edge outE;
-    *node.inE = inE;
-    *node.outE = outE;
-    node.value = 0;
-    network.hiddenLayer[i] = node;
-  }
-
-  // Create output layer
-  for (int i = 0; i < outputLength; i++) {
-    struct Node node;
-    struct Edge inE;
-    *node.inE = inE;
-    node.value = 0;
-    network.outputLayer[i] = node;
-  }
-
   // Create edges from inputLayer to hiddenLayer
-  int edgeIndex;
-  edgeIndex = 0;
+  int edgeIndex = 0;
   for (int i = 0; i < inputLength; i++) {
     for (int j = 0; j < hiddenLength; j++) {
-      struct Edge edge;
-      *edge.outV = network.inputLayer[i];
-      *edge.inV = network.hiddenLayer[j];
+      *network.edges[edgeIndex].outV = network.inputLayer[i];
+      *network.edges[edgeIndex].inV = network.hiddenLayer[j];
       network.edges[edgeIndex].currentWeight = 0;
       network.edges[edgeIndex].newWeight = 0;
       network.inputLayer[i].outE = &network.edges[edgeIndex];
@@ -88,11 +55,10 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
   // Create edges from hiddenLayer to outputLayer
   for (int i = 0; i < hiddenLength; i++) {
     for (int j = 0; j < outputLength; j++) {
-      struct Edge edge;
-      *edge.outV = network.hiddenLayer[i];
-      *edge.inV = network.outputLayer[j];
-      edge.currentWeight = 0;
-      edge.newWeight = 0;
+      *network.edges[edgeIndex].outV = network.hiddenLayer[i];
+      *network.edges[edgeIndex].inV = network.outputLayer[j];
+      network.edges[edgeIndex].currentWeight = 0;
+      network.edges[edgeIndex].newWeight = 0;
       network.hiddenLayer[i].outE = &network.edges[edgeIndex];
       network.outputLayer[j].inE = &network.edges[edgeIndex];
       edgeIndex++;
@@ -102,4 +68,3 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
   // readWeightsFromTextFile(network, inputFileName);
   return network;
 };
-
