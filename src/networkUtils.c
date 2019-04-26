@@ -1,9 +1,10 @@
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "network.c"
 
-struct InputValues
+struct Array
 {
   double values[100];
   int length;
@@ -14,7 +15,7 @@ double sigmoid(double x)
   return 1 / (1 + exp(-x));
 }
 
-void feedForward(struct Network *network, struct InputValues inputValues, bool useNewWeights)
+void feedForward(struct Network *network, struct Array inputValues, bool useNewWeights)
 {
 
   if (inputValues.length != (*network).inputLength)
@@ -67,3 +68,34 @@ double randomMutation(double weight, double mutationFactor)
 {
   return weight + (random() - random()) * mutationFactor;
 }
+
+struct TrainingDatum
+{
+  struct Array input;
+  struct Array output;
+};
+
+struct TrainingData
+{
+  struct TrainingDatum values[10000];
+  int length;
+};
+
+double getError(struct Network *network, struct TrainingData trainingData, bool useNewWeights)
+{
+  double errorForThisIteration = 0;
+  for (int i = 0; i < trainingData.length; i++)
+  {
+    feedForward(&network, trainingData.values[i].input, useNewWeights);
+    double errorForThisTrainingData = 0;
+    for (int j = 0; j < (*network).outputLength; j++)
+    {
+      double actualOutput = (*network).outputLayer[j].value;
+      double targetOutput = trainingData.values[i].output.values[j];
+      double difference = actualOutput - targetOutput;
+      errorForThisTrainingData += pow(difference, 2);
+    }
+    errorForThisIteration += errorForThisTrainingData;
+  }
+  return errorForThisIteration;
+};
