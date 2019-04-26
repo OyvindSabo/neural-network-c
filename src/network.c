@@ -1,7 +1,9 @@
 struct Node
 {
-  struct Edge *inE;
-  struct Edge *outE;
+  struct Edge *inE[100];
+  struct Edge *outE[100];
+  int inECount;
+  int outECount;
   double value;
 };
 
@@ -35,10 +37,31 @@ struct NetworkConfig
 struct Network createNetwork(struct NetworkConfig networkConfig)
 {
   struct Network network;
-  network.inputLength = networkConfig.inputLength;
-  network.hiddenLength = networkConfig.hiddenLength;
-  network.outputLength = networkConfig.outputLength;
+  int inputLength = network.inputLength = networkConfig.inputLength;
+  int hiddenLength = network.hiddenLength = networkConfig.hiddenLength;
+  int outputLength = network.outputLength = networkConfig.outputLength;
 
+  // Initialize  inputLayer
+  for (int i = 0; i < inputLength; i++) {
+    network.inputLayer[i].value = 0;
+    network.inputLayer[i].inECount = 0;
+    network.inputLayer[i].outECount = 0;
+  }
+
+  // Initialize hidden layer
+  for (int i = 0; i < hiddenLength; i++) {
+    network.hiddenLayer[i].value = 0;
+    network.hiddenLayer[i].inECount = 0;
+    network.hiddenLayer[i].outECount = 0;
+  }
+
+  // Create output layer
+  for (int i = 0; i < outputLength; i++) {
+    network.outputLayer[i].value = 0;
+    network.outputLayer[i].inECount = 0;
+    network.outputLayer[i].outECount = 0;
+  }
+  
   // Create edges from inputLayer to hiddenLayer
   int edgeIndex = 0;
   for (int i = 0; i < network.inputLength; i++)
@@ -49,8 +72,10 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
       *network.edges[edgeIndex].inV = network.hiddenLayer[j];
       network.edges[edgeIndex].currentWeight = 0;
       network.edges[edgeIndex].newWeight = 0;
-      network.inputLayer[i].outE = &network.edges[edgeIndex];
-      network.hiddenLayer[j].inE = &network.edges[edgeIndex];
+      network.inputLayer[i].outE[network.inputLayer[i].outECount] = &network.edges[edgeIndex];
+      network.hiddenLayer[j].inE[network.hiddenLayer[j].inECount] = &network.edges[edgeIndex];
+      network.inputLayer[i].outECount++;
+      network.hiddenLayer[i].inECount++;
       edgeIndex++;
     }
   }
@@ -64,8 +89,10 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
       *network.edges[edgeIndex].inV = network.outputLayer[j];
       network.edges[edgeIndex].currentWeight = 0;
       network.edges[edgeIndex].newWeight = 0;
-      network.hiddenLayer[i].outE = &network.edges[edgeIndex];
-      network.outputLayer[j].inE = &network.edges[edgeIndex];
+      network.hiddenLayer[i].outE[network.hiddenLayer[i].outECount] = &network.edges[edgeIndex];
+      network.outputLayer[j].inE[network.outputLayer[i].inECount] = &network.edges[edgeIndex];
+      network.hiddenLayer[i].outECount++;
+      network.outputLayer[i].inECount++;
       edgeIndex++;
     }
   }
