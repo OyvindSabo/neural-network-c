@@ -26,9 +26,9 @@ void feedForward(struct Network *network, struct InputValues inputValues, bool u
   for (int i = 0; i < (*network).hiddenLength; i++) {
     (*network).hiddenLayer[i].value = 0;
     for (int j = 0; j < (*network).hiddenLayer[i].inECount; j++) {
-      float currentWeight = (*network).hiddenLayer[i].inE[j].currentWeight;
-      float newWeight = (*network).hiddenLayer[i].inE[j].newWeight;
-      float value = (*network).hiddenLayer[i].inE[j].value;
+      float currentWeight = (*(*network).hiddenLayer[i].inE[j]).currentWeight;
+      float newWeight = (*(*network).hiddenLayer[i].inE[j]).newWeight;
+      float value = (*(*network).hiddenLayer[i].inE[j]).outV.value;
       (*network).hiddenLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
     }
     (*network).hiddenLayer[i].value = sigmoid((*network).hiddenLayer[i].value);
@@ -38,9 +38,9 @@ void feedForward(struct Network *network, struct InputValues inputValues, bool u
   for (int i = 0; i < (*network).outputLength; i++) {
     (*network).outputLayer[i].value = 0;
     for (int j = 0; j < (*network).outputLayer[i].inECount; j++) {
-      float currentWeight = (*network).outputLayer[i].inE[j].currentWeight;
-      float newWeight = (*network).outputLayer[i].inE[j].newWeight;
-      float value = (*network).outputLayer[i].inE[j].value;
+      float currentWeight = (*(*network).outputLayer[i].inE[j]).currentWeight;
+      float newWeight = (*(*network).outputLayer[i].inE[j]).newWeight;
+      float value = (*(*network).outputLayer[i].inE[j]).outV.value;
       (*network).outputLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
     }
     (*network).outputLayer[i].value = sigmoid((*network).outputLayer[i].value);
