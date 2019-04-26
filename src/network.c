@@ -20,6 +20,7 @@ struct Network
   int inputLength;
   int hiddenLength;
   int outputLength;
+  int edgeCount;
   struct Node inputLayer[100];
   struct Node hiddenLayer[100];
   struct Node outputLayer[100];
@@ -96,6 +97,7 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
       edgeIndex++;
     }
   }
+  network.edgeCount = edgeIndex;
 
   // readWeightsFromTextFile(network, networkConfig.inputFileName);
   return network;
