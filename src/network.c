@@ -2,15 +2,15 @@ struct Node
 {
   struct Edge *inE;
   struct Edge *outE;
-  float value;
+  double value;
 };
 
 struct Edge
 {
   struct Node *inV;
   struct Node *outV;
-  float currentWeight;
-  float newWeight;
+  double currentWeight;
+  double newWeight;
 };
 
 struct Network
