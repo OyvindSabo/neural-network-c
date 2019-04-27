@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "network.c"
+#include "dataUtils.c"
 
 struct Array
 {
@@ -98,4 +99,11 @@ double getError(struct Network *network, struct TrainingData trainingData, bool 
     errorForThisIteration += errorForThisTrainingData;
   }
   return errorForThisIteration;
+};
+
+void readWeightsFromTextFile(struct Network *network, char fileName[100]) {
+  struct Array dataArray = readArrayFromTextFile(fileName);
+  for (int i = 0; i < (*network).edgeCount; i++) {
+    (*network).edges[i].currentWeight = dataArray.values[i];
+  }
 };
