@@ -28,10 +28,10 @@ double sigmoid(double x)
   return 1 / (1 + exp(-x));
 }
 
-void feedForward(struct Network *network, struct Array inputValues, bool useNewWeights)
+void feedForward(struct Network *network, struct Array *inputValues, bool useNewWeights)
 {
 
-  if (inputValues.length != (*network).inputLength)
+  if ((*inputValues).length != (*network).inputLength)
   {
     printf("ERROR: Length of input data is not equal to length of input layer\n");
   }
@@ -39,7 +39,7 @@ void feedForward(struct Network *network, struct Array inputValues, bool useNewW
   // Set input layer values
   for (int i = 0; i < (*network).inputLength; i++)
   {
-    (*network).inputLayer[i].value = inputValues.values[i];
+    (*network).inputLayer[i].value = (*inputValues).values[i];
   }
 
   // Calculate hidden layer values
@@ -87,7 +87,7 @@ double getError(struct Network *network, struct TrainingData trainingData, bool 
   double errorForThisIteration = 0;
   for (int i = 0; i < trainingData.length; i++)
   {
-    feedForward(&network, trainingData.values[i].input, useNewWeights);
+    feedForward(&network, &trainingData.values[i].input, useNewWeights);
     double errorForThisTrainingData = 0;
     for (int j = 0; j < (*network).outputLength; j++)
     {
@@ -124,9 +124,9 @@ const visualizeError = error => {
 */
 
 void readWeightsFromTextFile(struct Network *network, char fileName[100]) {
-  struct Array dataArray = readArrayFromTextFile(fileName);
+  struct Array *dataArray = readArrayFromTextFile(fileName);
   for (int i = 0; i < (*network).edgeCount; i++) {
-    (*network).edges[i].currentWeight = dataArray.values[i];
+    (*network).edges[i].currentWeight = (*dataArray).values[i];
   }
 };
 
@@ -135,5 +135,6 @@ void writeWeightsToFile(struct Network *network, char fileName[100]) {
   for (int i = 0; i < (*network).edgeCount; i++) {
     dataArray.values[i] = (*network).edges[i].currentWeight;
   }
-  writeArrayToTextFile(dataArray, fileName);
+  dataArray.length = (*network).edgeCount;
+  writeArrayToTextFile(&dataArray, fileName);
 };
