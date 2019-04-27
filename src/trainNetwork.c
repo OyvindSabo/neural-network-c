@@ -7,10 +7,10 @@ struct TrainingConfig
   char outputFileName[100];
 };
 
-void trainNetwork(struct Network network, struct TrainingData trainingData, struct TrainingConfig trainingConfig)
+void trainNetwork(struct Network *network, struct TrainingData *trainingData, struct TrainingConfig *trainingConfig)
 {
-  double maxError = trainingConfig.maxError;
-  double learningRate = trainingConfig.learningRate;
+  double maxError = (*trainingConfig).maxError;
+  double learningRate = (*trainingConfig).learningRate;
   char outputFileName[100] = outputFileName;
 
   // Find the error given by the current weights
@@ -22,18 +22,18 @@ void trainNetwork(struct Network network, struct TrainingData trainingData, stru
   {
     // Mutate all edges slightly
     double mutationFactor = learningRate * currentError;
-    for (int i = 0; i < network.edgeCount; i++)
+    for (int i = 0; i < (*network).edgeCount; i++)
     {
-      network.edges[i].newWeight = randomMutation(network.edges[i].currentWeight, mutationFactor);
+      (*network).edges[i].newWeight = randomMutation((*network).edges[i].currentWeight, mutationFactor);
     }
     newError = getError(&network, trainingData, true);
     if (newError < currentError)
     {
       // visualizeError(newError); // Not implemented yet
       printf("\nnewError: %f\n", newError);
-      for (int i = 0; i < network.edgeCount; i++)
+      for (int i = 0; i < (*network).edgeCount; i++)
       {
-        network.edges[i].currentWeight = network.edges[i].newWeight;
+        (*network).edges[i].currentWeight = (*network).edges[i].newWeight;
         currentError = newError;
       }
       writeWeightsToFile(&network, outputFileName);

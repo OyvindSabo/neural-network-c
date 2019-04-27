@@ -57,13 +57,13 @@ void writeArrayToTextFile(struct Array *dataArray, char fileName[100])
   fclose(file);
 };
 
-struct TrainingData generateTrainingData(char fileName[100], struct TrainingDataConfig trainingDataConfig)
+struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDataConfig *trainingDataConfig)
 {
-  int numberOfFirstValuesToSkip = trainingDataConfig.numberOfFirstValuesToSkip;
-  int amountOfDataToUseForTraining = trainingDataConfig.amountOfDataToUseForTraining;
-  int inputLength = trainingDataConfig.inputLength;
-  int outputLength = trainingDataConfig.outputLength;
-  int distanceFromInputToOutput = trainingDataConfig.distanceFromInputToOutput;
+  int numberOfFirstValuesToSkip = (*trainingDataConfig).numberOfFirstValuesToSkip;
+  int amountOfDataToUseForTraining = (*trainingDataConfig).amountOfDataToUseForTraining;
+  int inputLength = (*trainingDataConfig).inputLength;
+  int outputLength = (*trainingDataConfig).outputLength;
+  int distanceFromInputToOutput = (*trainingDataConfig).distanceFromInputToOutput;
   struct Array *dataArray = readArrayFromTextFile(fileName);
   struct TrainingData trainingData;
   int trainingDataLength =
@@ -87,5 +87,5 @@ struct TrainingData generateTrainingData(char fileName[100], struct TrainingData
       trainingData.values[i].output.values[j] = (*dataArray).values[j];
     }
   }
-  return trainingData;
+  return &trainingData;
 };

@@ -35,12 +35,12 @@ struct NetworkConfig
   char inputFileName[100];
 };
 
-struct Network createNetwork(struct NetworkConfig networkConfig)
+struct Network *createNetwork(struct NetworkConfig *networkConfig)
 {
   struct Network network;
-  int inputLength = network.inputLength = networkConfig.inputLength;
-  int hiddenLength = network.hiddenLength = networkConfig.hiddenLength;
-  int outputLength = network.outputLength = networkConfig.outputLength;
+  int inputLength = network.inputLength = (*networkConfig).inputLength;
+  int hiddenLength = network.hiddenLength = (*networkConfig).hiddenLength;
+  int outputLength = network.outputLength = (*networkConfig).outputLength;
 
   // Initialize  inputLayer
   for (int i = 0; i < inputLength; i++) {
@@ -100,5 +100,5 @@ struct Network createNetwork(struct NetworkConfig networkConfig)
   network.edgeCount = edgeIndex;
 
   // readWeightsFromTextFile(network, networkConfig.inputFileName);
-  return network;
+  return &network;
 };

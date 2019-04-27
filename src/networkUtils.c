@@ -82,17 +82,17 @@ double randomMutation(double weight, double mutationFactor)
   return weight + (random() - random()) * mutationFactor;
 }
 
-double getError(struct Network *network, struct TrainingData trainingData, bool useNewWeights)
+double getError(struct Network *network, struct TrainingData *trainingData, bool useNewWeights)
 {
   double errorForThisIteration = 0;
-  for (int i = 0; i < trainingData.length; i++)
+  for (int i = 0; i < (*trainingData).length; i++)
   {
-    feedForward(&network, &trainingData.values[i].input, useNewWeights);
+    feedForward(&network, &(*trainingData).values[i].input, useNewWeights);
     double errorForThisTrainingData = 0;
     for (int j = 0; j < (*network).outputLength; j++)
     {
       double actualOutput = (*network).outputLayer[j].value;
-      double targetOutput = trainingData.values[i].output.values[j];
+      double targetOutput = (*trainingData).values[i].output.values[j];
       double difference = actualOutput - targetOutput;
       errorForThisTrainingData += pow(difference, 2);
     }
