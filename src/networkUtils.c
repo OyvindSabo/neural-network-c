@@ -11,6 +11,18 @@ struct Array
   int length;
 };
 
+struct TrainingDatum
+{
+  struct Array input;
+  struct Array output;
+};
+
+struct TrainingData
+{
+  struct TrainingDatum values[10000];
+  int length;
+};
+
 double sigmoid(double x)
 {
   return 1 / (1 + exp(-x));
@@ -70,18 +82,6 @@ double randomMutation(double weight, double mutationFactor)
   return weight + (random() - random()) * mutationFactor;
 }
 
-struct TrainingDatum
-{
-  struct Array input;
-  struct Array output;
-};
-
-struct TrainingData
-{
-  struct TrainingDatum values[10000];
-  int length;
-};
-
 double getError(struct Network *network, struct TrainingData trainingData, bool useNewWeights)
 {
   double errorForThisIteration = 0;
@@ -101,9 +101,39 @@ double getError(struct Network *network, struct TrainingData trainingData, bool 
   return errorForThisIteration;
 };
 
+/* Not really a critical function
+const visualizeError = error => {
+  let errorVisualization = "\n";
+  errorVisualization +=
+    "10 000    1 000      100        10        1        0.1       0.01     0.001\n";
+  errorVisualization +=
+    "┌─┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─┐\n";
+  errorVisualization += "│";
+  const xIndex = 41 - 10 * Math.log10(error);
+  for (let i = 0; i < xIndex; i++) {
+    errorVisualization += " ";
+  }
+  for (let i = 0; i < 72 - xIndex; i++) {
+    errorVisualization += "█";
+  }
+  errorVisualization += "│\n";
+  errorVisualization +=
+    "└─────────────────────────────────────────────────────────────────────────┘";
+  console.log(errorVisualization);
+};
+*/
+
 void readWeightsFromTextFile(struct Network *network, char fileName[100]) {
   struct Array dataArray = readArrayFromTextFile(fileName);
   for (int i = 0; i < (*network).edgeCount; i++) {
     (*network).edges[i].currentWeight = dataArray.values[i];
   }
+};
+
+void writeWeightsToFile(struct Network *network, char fileName[100]) {
+  struct Array dataArray;
+  for (int i = 0; i < (*network).edgeCount; i++) {
+    dataArray.values[i] = (*network).edges[i].currentWeight;
+  }
+  writeArrayToTextFile(dataArray, fileName);
 };
