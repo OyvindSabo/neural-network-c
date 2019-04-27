@@ -21,3 +21,11 @@ struct Array readArrayFromTextFile(char fileName[100]) {
   fclose(file);
   return dataArray;
 };
+
+void writeArrayToTextFile(struct Array dataArray, char fileName[100]) {
+  FILE *file = fopen(fileName, 'w');
+  for (int i = 0; i < dataArray.length; i++) {
+    fprintf(file, "%f\n", dataArray.values[i]);
+  }
+  fclose(file);
+};
