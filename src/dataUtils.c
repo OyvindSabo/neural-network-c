@@ -29,7 +29,7 @@ struct TrainingData
   int length;
 };
 
-struct Array readArrayFromTextFile(char fileName[100])
+struct Array *readArrayFromTextFile(char fileName[100])
 {
   struct Array dataArray;
   FILE *file = fopen(fileName, 'r');
@@ -44,7 +44,7 @@ struct Array readArrayFromTextFile(char fileName[100])
     dataArray.length += 1;
   }
   fclose(file);
-  return dataArray;
+  return &dataArray;
 };
 
 void writeArrayToTextFile(struct Array dataArray, char fileName[100])
@@ -64,7 +64,7 @@ struct TrainingData generateTrainingData(char fileName[100], struct TrainingData
   int inputLength = trainingDataConfig.inputLength;
   int outputLength = trainingDataConfig.outputLength;
   int distanceFromInputToOutput = trainingDataConfig.distanceFromInputToOutput;
-  struct Array dataArray = readArrayFromTextFile(fileName);
+  struct Array *dataArray = readArrayFromTextFile(fileName);
   struct TrainingData trainingData;
   int trainingDataLength =
       amountOfDataToUseForTraining -
@@ -80,11 +80,11 @@ struct TrainingData generateTrainingData(char fileName[100], struct TrainingData
     int outputEndIndex = outputStartIndex + outputLength;
     for (int j = inputStartIndex; j < inputEndIndex; j++)
     {
-      trainingData.values[i].input.values[j] = dataArray.values[j];
+      trainingData.values[i].input.values[j] = (*dataArray).values[j];
     }
     for (int j = outputStartIndex; j < outputEndIndex; j++)
     {
-      trainingData.values[i].output.values[j] = dataArray.values[j];
+      trainingData.values[i].output.values[j] = (*dataArray).values[j];
     }
   }
   return trainingData;
