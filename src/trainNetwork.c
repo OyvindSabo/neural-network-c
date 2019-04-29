@@ -1,20 +1,17 @@
-#include "networkUtils.c"
-
-struct TrainingConfig
-{
-  double learningRate;
-  double maxError;
-  char outputFileName[100];
-};
+#include <stdio.h>
+#include <string.h>
+#include "types.h"
+#include "networkUtils.h"
 
 void trainNetwork(struct Network *network, struct TrainingData *trainingData, struct TrainingConfig *trainingConfig)
 {
   double maxError = (*trainingConfig).maxError;
   double learningRate = (*trainingConfig).learningRate;
-  char outputFileName[100] = outputFileName;
+  char outputFileName[100];
+  strcpy(outputFileName, (*trainingConfig).outputFileName);
 
   // Find the error given by the current weights
-  double currentError = getError(&network, trainingData, false);
+  double currentError = getError(network, trainingData, false);
   double newError;
 
   // While the error is still above maxError, mutate all weights and update current weights if the new weights result in a lower error
@@ -26,7 +23,7 @@ void trainNetwork(struct Network *network, struct TrainingData *trainingData, st
     {
       (*network).edges[i].newWeight = randomMutation((*network).edges[i].currentWeight, mutationFactor);
     }
-    newError = getError(&network, trainingData, true);
+    newError = getError(network, trainingData, true);
     if (newError < currentError)
     {
       // visualizeError(newError); // Not implemented yet
@@ -36,7 +33,7 @@ void trainNetwork(struct Network *network, struct TrainingData *trainingData, st
         (*network).edges[i].currentWeight = (*network).edges[i].newWeight;
         currentError = newError;
       }
-      writeWeightsToFile(&network, outputFileName);
+      writeWeightsToFile(network, outputFileName);
     }
   } while (currentError > maxError);
 }

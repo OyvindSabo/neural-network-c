@@ -1,53 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "types.h"
 
-struct Array
+struct LargeArray *readArrayFromTextFile(char fileName[100])
 {
-  double values[100];
-  int length;
-};
-
-struct TrainingDataConfig
-{
-  int numberOfFirstValuesToSkip;
-  int amountOfDataToUseForTraining;
-  int inputLength;
-  int outputLength;
-  int distanceFromInputToOutput;
-};
-
-struct TrainingDatum
-{
-  struct Array input;
-  struct Array output;
-};
-
-struct TrainingData
-{
-  struct TrainingDatum values[10000];
-  int length;
-};
-
-struct Array *readArrayFromTextFile(char fileName[100])
-{
-  struct Array dataArray;
+  printf("dataUtils.c: readArrayFromTextFIle\n");
+  struct LargeArray *dataArray;
+  dataArray = malloc(sizeof(struct LargeArray));
   FILE *file = fopen(fileName, "r");
-  char currentLine[10];
+  char currentLine[100]; // A double has 15 decimal digits of precision
 
-  assert(file != NULL);
-
-  dataArray.length = 0;
+  (*dataArray).length = 0;
   while (fgets(currentLine, sizeof(currentLine), file) != NULL)
   {
-    dataArray.values[dataArray.length] = atof(currentLine);
-    dataArray.length += 1;
+    (*dataArray).values[(*dataArray).length] = atof(currentLine);
+    (*dataArray).length += 1;
   }
   fclose(file);
-  return &dataArray;
+  return dataArray;
 };
 
-void writeArrayToTextFile(struct Array *dataArray, char fileName[100])
+void writeArrayToTextFile(struct LargeArray *dataArray, char fileName[100])
 {
   FILE *file = fopen(fileName, "w");
   for (int i = 0; i < (*dataArray).length; i++)
@@ -64,28 +38,37 @@ struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDat
   int inputLength = (*trainingDataConfig).inputLength;
   int outputLength = (*trainingDataConfig).outputLength;
   int distanceFromInputToOutput = (*trainingDataConfig).distanceFromInputToOutput;
-  struct Array *dataArray = readArrayFromTextFile(fileName);
-  struct TrainingData trainingData;
-  int trainingDataLength =
+
+  struct LargeArray *dataArray = readArrayFromTextFile(fileName);
+  struct TrainingData *trainingData;
+  
+  trainingData = malloc(sizeof(struct TrainingData));
+
+  (*trainingData).length =
       amountOfDataToUseForTraining -
       numberOfFirstValuesToSkip -
       inputLength -
       distanceFromInputToOutput -
       outputLength;
-  for (int i = 0; i < trainingDataLength; i++)
+  for (int i = 0; i < (*trainingData).length; i++)
   {
     int inputStartIndex = numberOfFirstValuesToSkip + i;
     int inputEndIndex = inputStartIndex + inputLength;
     int outputStartIndex = inputEndIndex + distanceFromInputToOutput;
     int outputEndIndex = outputStartIndex + outputLength;
-    for (int j = inputStartIndex; j < inputEndIndex; j++)
+    (*trainingData).values[i].input.length = 0;
+    for (int j = 0; j < inputEndIndex - inputStartIndex; j++)
     {
-      trainingData.values[i].input.values[j] = (*dataArray).values[j];
+      (*trainingData).values[i].input.values[j] = (*dataArray).values[j];
+      (*trainingData).values[i].input.length++;
+      //printf("dataUtils: Increased input length to %d\n", (*trainingData).values[i].input.length);
     }
-    for (int j = outputStartIndex; j < outputEndIndex; j++)
+    (*trainingData).values[i].output.length = 0;
+    for (int j = 0; j < outputEndIndex - outputStartIndex; j++)
     {
-      trainingData.values[i].output.values[j] = (*dataArray).values[j];
+      (*trainingData).values[i].output.values[j] = (*dataArray).values[j];
+      (*trainingData).values[i].output.length++;
     }
   }
-  return &trainingData;
+  return trainingData;
 };
