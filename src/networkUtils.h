@@ -13,7 +13,7 @@ double randomMutation(double weight, double mutationFactor);
 
 double getError(struct Network *network, struct TrainingData *trainingData, _Bool useNewWeights);
 
-void readWeightsFromTextFile(struct Network *network, char fileName[100]);
+void assignWeightsFromTextFile(struct Network *network, char fileName[100]);
 
 void writeWeightsToFile(struct Network *network, char fileName[100]);
 

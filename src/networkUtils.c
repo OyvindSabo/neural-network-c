@@ -106,7 +106,7 @@ const visualizeError = error => {
 };
 */
 
-void readWeightsFromTextFile(struct Network *network, char fileName[100])
+void assignWeightsFromTextFile(struct Network *network, char fileName[100])
 {
   struct LargeArray *dataArray = readArrayFromTextFile(fileName);
   for (int i = 0; i < network->edgeCount; i++)

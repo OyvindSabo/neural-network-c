@@ -70,6 +70,6 @@ struct Network *createNetwork(struct NetworkConfig *networkConfig)
   }
   network->edgeCount = edgeIndex;
 
-  readWeightsFromTextFile(network, networkConfig->inputFileName);
+  assignWeightsFromTextFile(network, networkConfig->inputFileName);
   return network;
 };
