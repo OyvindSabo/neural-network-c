@@ -12,7 +12,6 @@ double sigmoid(double x)
 
 void feedForward(struct Network *network, struct Array *inputValues, _Bool useNewWeights)
 {
-  //printf("feedForward\n");
   if ((*inputValues).length != (*network).inputLength)
   {
     printf("ERROR: Length of input data is not equal to length of input layer\n");
@@ -21,29 +20,23 @@ void feedForward(struct Network *network, struct Array *inputValues, _Bool useNe
   }
 
   // Set input layer values
-  //printf("feedForward: set input layer values\n");
   for (int i = 0; i < (*network).inputLength; i++)
   {
     (*network).inputLayer[i].value = (*inputValues).values[i];
-    //printf("feedForward: value in input layer: %f\n", (*network).inputLayer[i].value);
-    //printf("Set input layer value to %f\n", (*network).inputLayer[i].value);
   }
 
   // Calculate hidden layer values
-  //printf("feedForward: Calculate hidden layer values\n");
   for (int i = 0; i < (*network).hiddenLength; i++)
   {
-    //printf("feedForward: (*network).hiddenLength: %d\n", (*network).hiddenLength);
-    //printf("feedForward: set (*network).hiddenLayer[i].value = 0\n");
     (*network).hiddenLayer[i].value = 0;
     for (int j = 0; j < (*network).hiddenLayer[i].inECount; j++)
     {
       //printf("feedForward: (*network).hiddenLayer[i].inECount: %d\n", (*network).hiddenLayer[i].inECount);
-      float currentWeight = (*(*network).hiddenLayer[i].inE[j]).currentWeight;
+      double currentWeight = (*(*network).hiddenLayer[i].inE[j]).currentWeight;
       //printf("feedForward: calculated currentWeight to %f\n", currentWeight);
-      float newWeight = (*(*network).hiddenLayer[i].inE[j]).newWeight;
+      double newWeight = (*(*network).hiddenLayer[i].inE[j]).newWeight;
       //printf("feedForward: newWeight: %f\n", newWeight);
-      float value = (*(*(*network).hiddenLayer[i].inE[j]).outV).value;
+      double value = (*(*(*network).hiddenLayer[i].inE[j]).outV).value;
       //printf("feedForward: value in hidden layer: %f\n", value);
       (*network).hiddenLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
       //printf("feedForward: Set (*network).hiddenLayer[i].value to %f\n", (*network).hiddenLayer[i].value);
@@ -59,9 +52,9 @@ void feedForward(struct Network *network, struct Array *inputValues, _Bool useNe
     (*network).outputLayer[i].value = 0;
     for (int j = 0; j < (*network).outputLayer[i].inECount; j++)
     {
-      float currentWeight = (*(*network).outputLayer[i].inE[j]).currentWeight;
-      float newWeight = (*(*network).outputLayer[i].inE[j]).newWeight;
-      float value = (*(*(*network).outputLayer[i].inE[j]).outV).value;
+      double currentWeight = (*(*network).outputLayer[i].inE[j]).currentWeight;
+      double newWeight = (*(*network).outputLayer[i].inE[j]).newWeight;
+      double value = (*(*(*network).outputLayer[i].inE[j]).outV).value;
       (*network).outputLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
     }
     //(*network).outputLayer[i].value = sigmoid((*network).outputLayer[i].value);
