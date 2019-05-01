@@ -12,52 +12,45 @@ double sigmoid(double x)
 
 void feedForward(struct Network *network, struct Array *inputValues, _Bool useNewWeights)
 {
-  if ((*inputValues).length != (*network).inputLength)
+  if (inputValues->length != network->inputLength)
   {
     printf("ERROR: Length of input data is not equal to length of input layer\n");
-    printf("inputValues.length: %d\n", (*inputValues).length);
-    printf("inputLayer.length: %d\n", (*network).inputLength);
+    printf("inputValues.length: %d\n", inputValues->length);
+    printf("inputLayer.length: %d\n", network->inputLength);
   }
 
   // Set input layer values
-  for (int i = 0; i < (*network).inputLength; i++)
+  for (int i = 0; i < network->inputLength; i++)
   {
-    (*network).inputLayer[i].value = (*inputValues).values[i];
+    network->inputLayer[i].value = inputValues->values[i];
   }
 
   // Calculate hidden layer values
-  for (int i = 0; i < (*network).hiddenLength; i++)
+  for (int i = 0; i < network->hiddenLength; i++)
   {
-    (*network).hiddenLayer[i].value = 0;
-    for (int j = 0; j < (*network).hiddenLayer[i].inECount; j++)
+    network->hiddenLayer[i].value = 0;
+    for (int j = 0; j < network->hiddenLayer[i].inECount; j++)
     {
-      //printf("feedForward: (*network).hiddenLayer[i].inECount: %d\n", (*network).hiddenLayer[i].inECount);
-      double currentWeight = (*(*network).hiddenLayer[i].inE[j]).currentWeight;
-      //printf("feedForward: calculated currentWeight to %f\n", currentWeight);
-      double newWeight = (*(*network).hiddenLayer[i].inE[j]).newWeight;
-      //printf("feedForward: newWeight: %f\n", newWeight);
-      double value = (*(*(*network).hiddenLayer[i].inE[j]).outV).value;
-      //printf("feedForward: value in hidden layer: %f\n", value);
-      (*network).hiddenLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
-      //printf("feedForward: Set (*network).hiddenLayer[i].value to %f\n", (*network).hiddenLayer[i].value);
+      double currentWeight = network->hiddenLayer[i].inE[j]->currentWeight;
+      double newWeight = network->hiddenLayer[i].inE[j]->newWeight;
+      double value = network->hiddenLayer[i].inE[j]->outV->value;
+      network->hiddenLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
       
     }
-    (*network).hiddenLayer[i].value = sigmoid((*network).hiddenLayer[i].value);
+    network->hiddenLayer[i].value = sigmoid(network->hiddenLayer[i].value);
   }
 
   // Calculate output layer values
-  //printf("feedForward: Calculate output layer values\n");
-  for (int i = 0; i < (*network).outputLength; i++)
+  for (int i = 0; i < network->outputLength; i++)
   {
-    (*network).outputLayer[i].value = 0;
-    for (int j = 0; j < (*network).outputLayer[i].inECount; j++)
+    network->outputLayer[i].value = 0;
+    for (int j = 0; j < network->outputLayer[i].inECount; j++)
     {
-      double currentWeight = (*(*network).outputLayer[i].inE[j]).currentWeight;
-      double newWeight = (*(*network).outputLayer[i].inE[j]).newWeight;
-      double value = (*(*(*network).outputLayer[i].inE[j]).outV).value;
-      (*network).outputLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
+      double currentWeight = network->outputLayer[i].inE[j]->currentWeight;
+      double newWeight = network->outputLayer[i].inE[j]->newWeight;
+      double value = network->outputLayer[i].inE[j]->outV->value;
+      network->outputLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
     }
-    //(*network).outputLayer[i].value = sigmoid((*network).outputLayer[i].value);
   }
 };
 
@@ -75,14 +68,14 @@ double randomMutation(double weight, double mutationFactor)
 double getError(struct Network *network, struct TrainingData *trainingData, _Bool useNewWeights)
 {
   double errorForThisIteration = 0;
-  for (int i = 0; i < (*trainingData).length; i++)
+  for (int i = 0; i < trainingData->length; i++)
   {
-    feedForward(network, &(*trainingData).values[i].input, useNewWeights);
+    feedForward(network, &trainingData->values[i].input, useNewWeights);
     double errorForThisTrainingData = 0;
-    for (int j = 0; j < (*network).outputLength; j++)
+    for (int j = 0; j < network->outputLength; j++)
     {
-      double actualOutput = (*network).outputLayer[j].value;
-      double targetOutput = (*trainingData).values[i].output.values[j];
+      double actualOutput = network->outputLayer[j].value;
+      double targetOutput = trainingData->values[i].output.values[j];
       double difference = actualOutput - targetOutput;
       errorForThisTrainingData += pow(difference, 4);
     }
@@ -116,19 +109,19 @@ const visualizeError = error => {
 void readWeightsFromTextFile(struct Network *network, char fileName[100])
 {
   struct LargeArray *dataArray = readArrayFromTextFile(fileName);
-  for (int i = 0; i < (*network).edgeCount; i++)
+  for (int i = 0; i < network->edgeCount; i++)
   {
-    (*network).edges[i].currentWeight = (*dataArray).values[i];
+    network->edges[i].currentWeight = dataArray->values[i];
   }
 };
 
 void writeWeightsToFile(struct Network *network, char fileName[100])
 {
   struct LargeArray dataArray;
-  for (int i = 0; i < (*network).edgeCount; i++)
+  for (int i = 0; i < network->edgeCount; i++)
   {
-    dataArray.values[i] = (*network).edges[i].currentWeight;
+    dataArray.values[i] = network->edges[i].currentWeight;
   }
-  dataArray.length = (*network).edgeCount;
+  dataArray.length = network->edgeCount;
   writeArrayToTextFile(&dataArray, fileName);
 };
