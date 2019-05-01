@@ -5,13 +5,13 @@
 
 struct Array *runNetwork(struct Network *network, struct Array *input)
 {
-  printf("runNetwork");
-  feedForward(network, input, false);
-  struct Array *outputArray;
-  outputArray = malloc(sizeof(struct Array));
-  for (int i = 0; i < network->outputLength; i++)
-  {
-    outputArray->values[i] = network->outputLayer[i].value;
-  }
-  return outputArray;
+    struct Array *outputArray;
+    outputArray = malloc(sizeof(struct Array));
+
+    feedForward(network, input, false);
+    for (int i = 0; i < network->outputLength; i++)
+    {
+        outputArray->values[i] = network->outputLayer[i].value;
+    }
+    return outputArray;
 }
