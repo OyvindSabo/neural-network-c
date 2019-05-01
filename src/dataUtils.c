@@ -3,9 +3,16 @@
 #include <string.h>
 #include "types.h"
 
+void slice(struct LargeArray *inputArray, struct Array *outputArray, int startIndex, int endIndex) {
+  outputArray->length = 0;
+  for (int i = 0; i < endIndex - startIndex; i++) {
+    outputArray->values[i] = inputArray->values[i+startIndex];
+    outputArray->length++;
+  }
+}
+
 struct LargeArray *readArrayFromTextFile(char fileName[100])
 {
-  printf("dataUtils.c: readArrayFromTextFIle\n");
   struct LargeArray *dataArray;
   dataArray = malloc(sizeof(struct LargeArray));
   FILE *file = fopen(fileName, "r");
@@ -45,7 +52,7 @@ struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDat
   trainingData = malloc(sizeof(struct TrainingData));
 
   (*trainingData).length =
-      amountOfDataToUseForTraining -
+      amountOfDataToUseForTraining + 2 -
       numberOfFirstValuesToSkip -
       inputLength -
       distanceFromInputToOutput -
@@ -56,19 +63,8 @@ struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDat
     int inputEndIndex = inputStartIndex + inputLength;
     int outputStartIndex = inputEndIndex + distanceFromInputToOutput;
     int outputEndIndex = outputStartIndex + outputLength;
-    (*trainingData).values[i].input.length = 0;
-    for (int j = 0; j < inputEndIndex - inputStartIndex; j++)
-    {
-      (*trainingData).values[i].input.values[j] = (*dataArray).values[j];
-      (*trainingData).values[i].input.length++;
-      //printf("dataUtils: Increased input length to %d\n", (*trainingData).values[i].input.length);
-    }
-    (*trainingData).values[i].output.length = 0;
-    for (int j = 0; j < outputEndIndex - outputStartIndex; j++)
-    {
-      (*trainingData).values[i].output.values[j] = (*dataArray).values[j];
-      (*trainingData).values[i].output.length++;
-    }
+    slice(dataArray, &trainingData->values[i].input, inputStartIndex, inputEndIndex);
+    slice(dataArray, &trainingData->values[i].output, outputStartIndex, outputEndIndex);
   }
   return trainingData;
 };

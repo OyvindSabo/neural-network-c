@@ -1,7 +1,7 @@
 #include <math.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "types.h"
 #include "dataUtils.h"
 
@@ -64,7 +64,7 @@ void feedForward(struct Network *network, struct Array *inputValues, _Bool useNe
       float value = (*(*(*network).outputLayer[i].inE[j]).outV).value;
       (*network).outputLayer[i].value += (useNewWeights ? newWeight : currentWeight) * value;
     }
-    (*network).outputLayer[i].value = sigmoid((*network).outputLayer[i].value);
+    //(*network).outputLayer[i].value = sigmoid((*network).outputLayer[i].value);
   }
 };
 

@@ -26,8 +26,8 @@ int main()
 
   printf("Training network\n");
   struct TrainingConfig trainingConfig;
-  trainingConfig.learningRate = 0.000001;
-  trainingConfig.maxError = 500;
+  trainingConfig.learningRate = 0.00000001;
+  trainingConfig.maxError = 400;
   strcpy(trainingConfig.outputFileName, "./data/weights.txt");
   trainNetwork(network, trainingData, &trainingConfig);
 

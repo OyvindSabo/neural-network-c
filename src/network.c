@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "types.h"
+#include "networkUtils.h"
 
 struct Network *createNetwork(struct NetworkConfig *networkConfig)
 {
@@ -61,14 +62,14 @@ struct Network *createNetwork(struct NetworkConfig *networkConfig)
       (*network).edges[edgeIndex].currentWeight = 0;
       (*network).edges[edgeIndex].newWeight = 0;
       (*network).hiddenLayer[i].outE[(*network).hiddenLayer[i].outECount] = &(*network).edges[edgeIndex];
-      (*network).outputLayer[j].inE[(*network).outputLayer[i].inECount] = &(*network).edges[edgeIndex];
+      (*network).outputLayer[j].inE[(*network).outputLayer[j].inECount] = &(*network).edges[edgeIndex];
       (*network).hiddenLayer[i].outECount++;
-      (*network).outputLayer[i].inECount++;
+      (*network).outputLayer[j].inECount++;
       edgeIndex++;
     }
   }
   (*network).edgeCount = edgeIndex;
 
-  readWeightsFromTextFile(network, &(*networkConfig).inputFileName);
+  readWeightsFromTextFile(network, (*networkConfig).inputFileName);
   return network;
 };

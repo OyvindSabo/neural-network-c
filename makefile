@@ -5,6 +5,16 @@ main: main.o dataUtils.o network.o networkUtils.o trainNetwork.o
 	@echo "Executing main\n"
 	@./main
 
+demo: demo.o dataUtils.o network.o networkUtils.o runNetwork.o
+	@${CC} -o demo demo.o dataUtils.o network.o networkUtils.o runNetwork.o -lm
+	@echo "Executing demo\n"
+	@./demo
+
+test: test.o dataUtils.o network.o networkUtils.o trainNetwork.o
+	@${CC} -o test test.o dataUtils.o network.o networkUtils.o trainNetwork.o runNetwork.o -lm
+	@echo "Executing test\n"
+	@./test
+
 main.o: main.c
 	@echo "\nCompiling main.c\n"
 	@${CC} -c main.c
@@ -20,6 +30,10 @@ network.o: src/network.c
 networkUtils.o: src/networkUtils.c
 	@echo "\nCompiling networkUtils.c\n"
 	@${CC} -c src/networkUtils.c
+
+runNetwork.o: src/runNetwork.c
+	@echo "\nCompiling runNetwork.c\n"
+	@${CC} -c src/runNetwork.c
 
 trainNetwork.o: src/trainNetwork.c
 	@echo "\nCompiling trainNetwork.c\n"
