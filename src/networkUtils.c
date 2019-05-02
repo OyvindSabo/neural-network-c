@@ -83,28 +83,6 @@ double getError(struct Network *network, struct TrainingData *trainingData, _Boo
     return errorForThisIteration;
 };
 
-/* Not really a critical function
-const visualizeError = error => {
-  let errorVisualization = "\n";
-  errorVisualization +=
-    "10 000    1 000      100        10        1        0.1       0.01     0.001\n";
-  errorVisualization +=
-    "┌─┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─┐\n";
-  errorVisualization += "│";
-  const xIndex = 41 - 10 * Math.log10(error);
-  for (let i = 0; i < xIndex; i++) {
-    errorVisualization += " ";
-  }
-  for (let i = 0; i < 72 - xIndex; i++) {
-    errorVisualization += "█";
-  }
-  errorVisualization += "│\n";
-  errorVisualization +=
-    "└─────────────────────────────────────────────────────────────────────────┘";
-  console.log(errorVisualization);
-};
-*/
-
 void assignWeightsFromTextFile(struct Network *network, char fileName[100])
 {
     struct LargeArray *dataArray = readArrayFromTextFile(fileName);

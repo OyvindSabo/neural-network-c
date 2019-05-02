@@ -3,10 +3,13 @@
 #include "src/types.h"
 #include "src/dataUtils.h"
 #include "src/network.h"
+#include "src/consoleUtils.h"
 #include "src/trainNetwork.h"
 
 int main()
 {
+    printLogo();
+    
     printf("Initializing network\n");
     struct NetworkConfig networkConfig;
     networkConfig.inputLength = 100;

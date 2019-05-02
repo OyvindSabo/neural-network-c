@@ -1,7 +1,7 @@
 CC=gcc
 
-main: main.o dataUtils.o network.o networkUtils.o trainNetwork.o
-	@${CC} -o main main.o dataUtils.o network.o networkUtils.o trainNetwork.o -lm
+main: main.o consoleUtils.o dataUtils.o network.o networkUtils.o trainNetwork.o
+	@${CC} -o main main.o consoleUtils.o dataUtils.o network.o networkUtils.o trainNetwork.o -lm
 	@echo "Executing main\n"
 	@./main
 
@@ -18,6 +18,10 @@ test: test.o dataUtils.o network.o networkUtils.o trainNetwork.o
 main.o: main.c
 	@echo "\nCompiling main.c\n"
 	@${CC} -c main.c
+
+consoleUtils.o: src/consoleUtils.c
+	@echo "\nCompiling consoleUtils.c\n"
+	@${CC} -c src/consoleUtils.c
 
 dataUtils.o: src/dataUtils.c
 	@echo "\nCompiling dataUtils.c\n"
