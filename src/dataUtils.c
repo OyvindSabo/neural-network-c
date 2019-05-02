@@ -42,6 +42,7 @@ void writeArrayToTextFile(struct LargeArray *dataArray, char fileName[100])
 
 struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDataConfig *trainingDataConfig)
 {
+    // Extract values from trainingDataConfig
     int numberOfFirstValuesToSkip = trainingDataConfig->numberOfFirstValuesToSkip;
     int amountOfDataToUseForTraining = trainingDataConfig->amountOfDataToUseForTraining;
     int inputLength = trainingDataConfig->inputLength;

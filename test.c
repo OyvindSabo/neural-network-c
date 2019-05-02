@@ -225,7 +225,7 @@ int main()
     printf("\n\33[1;36m  Testing sigmoid:\33[m\n");
     printf("  Checking that sigmoid of -50 is correct:                      %s\n", sigmoidOfMinusFiftyIsCorrect);
     printf("  Checking that sigmoid of zero is correct:                     %s\n", sigmoidOfZeroIsCorrect);
-    printf("  Checking that sigmoid of 50 is correct:                       %s\n", sigmoidOfFiftyIsCorrect);
+    printf("  Checking that sigmoid of 50 is correct:                       %s\n\n", sigmoidOfFiftyIsCorrect);
 
     printf("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n");
     printf("┃ Testing runNetwork.c                                                        ┃\n");

@@ -3,4 +3,6 @@
 
 void printLogo();
 
+void printLoading(char message[100]);
+
 #endif

@@ -10,7 +10,7 @@ int main()
 {
     printLogo();
     
-    printf("Initializing network\n");
+    printLoading("Initializing network");
     struct NetworkConfig networkConfig;
     networkConfig.inputLength = 100;
     networkConfig.hiddenLength = 50;
@@ -18,7 +18,7 @@ int main()
     strcpy(networkConfig.inputFileName, "./data/weights.txt");
     struct Network *network = createNetwork(&networkConfig);
 
-    printf("Generating training data\n");
+    printLoading("Generating training data");
     struct TrainingDataConfig trainingDataConfig;
     trainingDataConfig.numberOfFirstValuesToSkip = 100;
     trainingDataConfig.amountOfDataToUseForTraining = 10000;
@@ -27,7 +27,7 @@ int main()
     trainingDataConfig.distanceFromInputToOutput = 10;
     struct TrainingData *trainingData = generateTrainingData("./data/waveHeights.txt", &trainingDataConfig);
 
-    printf("Training network\n");
+    printLoading("Initiating training");
     struct TrainingConfig trainingConfig;
     trainingConfig.learningRate = 0.00000001;
     trainingConfig.maxError = 400;
