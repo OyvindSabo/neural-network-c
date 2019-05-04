@@ -15,9 +15,8 @@ void printLogo()
     printf("┃ ┃ ┃ ┃ ┏━┛  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃   ┫   ┫ ┏━━┓┃┃   ┗━━┛\n");
     printf("┃ ┃   ┃ ┗━━┓ ┃ ┃ ┃   ┃   ┃   ┃ ┃ ┃ ┃ ┃ ┃  ┣┻┛    \n");
     printf("┗━┻━━━┻━━━━┛ ┗━┛ ┗━━━┻━━━┻━━━┻━┻━┻━┻━┛ ┗━━┛\n");
-    printf("\33[m");
 
-    printf("BY ØYVIND SÆBØ\n");
+    printf("\nBY ØYVIND SÆBØ\33[m\n");
 }
 
 void printLoading(char message[100]) {

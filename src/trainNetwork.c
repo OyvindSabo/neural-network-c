@@ -26,8 +26,7 @@ void trainNetwork(struct Network *network, struct TrainingData *trainingData, st
         newError = getError(network, trainingData, true);
         if (newError < currentError)
         {
-            // visualizeError(newError); // Not implemented yet
-            printf("\nnewError: %f\n", newError);
+            printf("\nNew total error: \33[1;36m%f\33[m\n", newError);
             for (int i = 0; i < network->edgeCount; i++)
             {
                 network->edges[i].currentWeight = network->edges[i].newWeight;

@@ -1514,7 +1514,7 @@ int main()
     actualValue = waveHeightArray->values[futureValueIndex];
     error = fabs(predictedValue->values[0] - actualValue);
     totalError += error;
-    printf("┃ At t = %d      ┃ %f          ┃ %f          ┃ %f          ┃\n", futureValueIndex, predictedValue->values[0], actualValue, error);
+    printf("┃ At t = %d      ┃ %f         ┃ %f          ┃ %f          ┃\n", futureValueIndex, predictedValue->values[0], actualValue, error);
 
     // Generate demo data for t = 15032
     futureValueIndex = 15032;
@@ -2289,7 +2289,7 @@ int main()
     printf("┃ At t = %d      ┃ %f          ┃ %f          ┃ %f          ┃\n", futureValueIndex, predictedValue->values[0], actualValue, error);
     
     printf("┗━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━━━━━━┛\n");
-    printf("\nTotal error: \33[1;31m%f\33[m\n", totalError);
+    printf("\nTotal error: \33[1;36m%f\33[m\n", totalError);
 
     return 0;
 };
