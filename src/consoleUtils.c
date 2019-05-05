@@ -35,3 +35,7 @@ void printLoading(char message[100]) {
     printf("█\33[m\n");
     fflush(stdout);
 }
+
+void printError(double error) {
+    printf("\nNew total error: \33[1;36m%f\33[m\n", error);
+}
