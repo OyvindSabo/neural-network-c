@@ -26,7 +26,9 @@ void trainNetwork(struct Network *network,
         double mutationFactor = learningRate * currentError;
         for (int i = 0; i < network->edgeCount; i++)
         {
-            network->edges[i].newWeight = randomMutation(network->edges[i].currentWeight, mutationFactor);
+            network->edges[i].newWeight = randomMutation(
+                network->edges[i].currentWeight, mutationFactor
+            );
         }
         newError = getError(network, trainingData, true);
         if (newError < currentError)
@@ -40,7 +42,5 @@ void trainNetwork(struct Network *network,
             }
             writeWeightsToFile(network, outputFileName);
         }
-        // The training algorithm runs either until it is stopped manually, or until
-        // the prediction error is less than a given maximum accepted error
     } while (currentError > maxError);
 }

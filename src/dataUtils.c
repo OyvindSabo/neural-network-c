@@ -14,7 +14,8 @@ void slice(struct LargeArray *inputArray, struct Array *outputArray, int startIn
     }
 }
 
-// Routine for reading a newline separated text file of numbers to an array of doubles
+// Routine for reading a newline separated text file of numbers to an array of
+// doubles
 struct LargeArray *readArrayFromTextFile(char fileName[100])
 {
     struct LargeArray *dataArray;

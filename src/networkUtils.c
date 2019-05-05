@@ -76,7 +76,9 @@ double randomMutation(double weight, double mutationFactor)
 
 // Return the accumulated difference between the predicted value and actual
 // value for all input/output tuples in training data
-double getError(struct Network *network, struct TrainingData *trainingData, _Bool useNewWeights)
+double getError(struct Network *network,
+                struct TrainingData *trainingData,
+                _Bool useNewWeights)
 {
     double errorForThisIteration = 0;
     for (int i = 0; i < trainingData->length; i++)
