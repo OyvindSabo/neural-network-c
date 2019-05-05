@@ -1,17 +1,17 @@
 CC=gcc
 
-main: main.o consoleUtils.o dataUtils.o network.o networkUtils.o trainNetwork.o
-	@${CC} -o main main.o consoleUtils.o dataUtils.o network.o networkUtils.o trainNetwork.o -lm
+main: main.o consoleUtils.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o
+	@${CC} -o main main.o consoleUtils.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o -lm
 	@echo "Executing main\n"
 	@./main
 
-demo: demo.o dataUtils.o network.o networkUtils.o runNetwork.o
-	@${CC} -o demo demo.o dataUtils.o network.o networkUtils.o runNetwork.o -lm
+demo: demo.o dataUtils.o createNetwork.o networkUtils.o runNetwork.o
+	@${CC} -o demo demo.o dataUtils.o createNetwork.o networkUtils.o runNetwork.o -lm
 	@echo "Executing demo\n"
 	@./demo
 
-test: test.o dataUtils.o network.o networkUtils.o trainNetwork.o
-	@${CC} -o test test.o dataUtils.o network.o networkUtils.o trainNetwork.o runNetwork.o -lm
+test: test.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o
+	@${CC} -o test test.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o runNetwork.o -lm
 	@echo "Executing test\n"
 	@./test
 
@@ -27,9 +27,9 @@ dataUtils.o: src/dataUtils.c
 	@echo "\nCompiling dataUtils.c\n"
 	@${CC} -c src/dataUtils.c
 
-network.o: src/network.c
-	@echo "\nCompiling network.c\n"
-	@${CC} -c src/network.c
+createNetwork.o: src/createNetwork.c
+	@echo "\nCompiling createNetwork.c\n"
+	@${CC} -c src/createNetwork.c
 
 networkUtils.o: src/networkUtils.c
 	@echo "\nCompiling networkUtils.c\n"

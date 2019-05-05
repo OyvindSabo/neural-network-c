@@ -2,7 +2,7 @@
 #include <string.h>
 #include "src/types.h"
 #include "src/dataUtils.h"
-#include "src/network.h"
+#include "src/createNetwork.h"
 #include "src/consoleUtils.h"
 #include "src/trainNetwork.h"
 

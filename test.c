@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "src/types.h"
-#include "src/network.h"
+#include "src/createNetwork.h"
 #include "src/dataUtils.h"
 #include "src/runNetwork.h"
 #include "src/networkUtils.h"

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "types.h"
 
+// Routine which copies a subset of an input array into an output array
 void slice(struct LargeArray *inputArray, struct Array *outputArray, int startIndex, int endIndex)
 {
     outputArray->length = 0;
@@ -13,12 +14,13 @@ void slice(struct LargeArray *inputArray, struct Array *outputArray, int startIn
     }
 }
 
+// Routine for reading a newline separated text file of numbers to an array of doubles
 struct LargeArray *readArrayFromTextFile(char fileName[100])
 {
     struct LargeArray *dataArray;
     dataArray = malloc(sizeof(struct LargeArray));
     FILE *file = fopen(fileName, "r");
-    char currentLine[100]; // A double has 15 decimal digits of precision
+    char currentLine[100];
 
     dataArray->length = 0;
     while (fgets(currentLine, sizeof(currentLine), file) != NULL)
@@ -30,6 +32,7 @@ struct LargeArray *readArrayFromTextFile(char fileName[100])
     return dataArray;
 };
 
+// Routine for writing the doubles of an array to a newline separated text file
 void writeArrayToTextFile(struct LargeArray *dataArray, char fileName[100])
 {
     FILE *file = fopen(fileName, "w");
@@ -40,6 +43,7 @@ void writeArrayToTextFile(struct LargeArray *dataArray, char fileName[100])
     fclose(file);
 };
 
+// Routine for extracting all corresponding input/output tuples from training data time series
 struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDataConfig *trainingDataConfig)
 {
     // Extract values from trainingDataConfig
@@ -49,17 +53,22 @@ struct TrainingData *generateTrainingData(char fileName[100], struct TrainingDat
     int outputLength = trainingDataConfig->outputLength;
     int distanceFromInputToOutput = trainingDataConfig->distanceFromInputToOutput;
 
+    // Initialize output array with data from text file
     struct LargeArray *dataArray = readArrayFromTextFile(fileName);
     struct TrainingData *trainingData;
 
+    // Allocate memory for output array
     trainingData = malloc(sizeof(struct TrainingData));
 
+    // Calculate how length of output training array
     trainingData->length =
         amountOfDataToUseForTraining + 2 -
         numberOfFirstValuesToSkip -
         inputLength -
         distanceFromInputToOutput -
         outputLength;
+    
+    // Extract all corresponding input/output tuples from training data time series
     for (int i = 0; i < trainingData->length; i++)
     {
         int inputStartIndex = numberOfFirstValuesToSkip + i;

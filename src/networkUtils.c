@@ -5,6 +5,7 @@
 #include "types.h"
 #include "dataUtils.h"
 
+// Activation function which returns a number between 0 and 1 for any input number
 double sigmoid(double x)
 {
     return 1 / (1 + exp(-x));
@@ -40,6 +41,8 @@ void feedForward(struct Network *network, struct Array *inputValues, _Bool useNe
     }
 
     // Calculate output layer values
+    // Since this network will be used for regression rather than classification
+    // the output layer does not utilize the sigmoid function
     for (int i = 0; i < network->outputLength; i++)
     {
         network->outputLayer[i].value = 0;
