@@ -31,7 +31,7 @@ int main()
     printLoading("Initiating training");
     struct TrainingConfig trainingConfig;
     trainingConfig.learningRate = 0.00000001;
-    trainingConfig.maxError = 400;
+    trainingConfig.maxError = 1;
     strcpy(trainingConfig.outputFileName, "./data/weights.txt");
     trainNetwork(network, trainingData, &trainingConfig);
 
