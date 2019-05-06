@@ -10,8 +10,8 @@ demo: demo.o dataUtils.o createNetwork.o networkUtils.o runNetwork.o
 	@echo "Executing demo\n"
 	@./demo
 
-test: test.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o
-	@${CC} -o test test.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o runNetwork.o -lm
+test: test.o consoleUtils.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o
+	@${CC} -o test test.o consoleUtils.o dataUtils.o createNetwork.o networkUtils.o trainNetwork.o runNetwork.o -lm
 	@echo "Executing test\n"
 	@./test
 

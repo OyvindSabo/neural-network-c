@@ -9,7 +9,7 @@
 int main()
 {
     printLogo();
-    
+
     printLoading("Initializing network");
     struct NetworkConfig networkConfig;
     networkConfig.inputLength = 100;
@@ -25,7 +25,8 @@ int main()
     trainingDataConfig.inputLength = 100;
     trainingDataConfig.outputLength = 1;
     trainingDataConfig.distanceFromInputToOutput = 10;
-    struct TrainingData *trainingData = generateTrainingData("./data/waveHeights.txt", &trainingDataConfig);
+    struct TrainingData *trainingData = generateTrainingData(
+        "./data/waveHeights.txt", &trainingDataConfig);
 
     printLoading("Initiating training");
     struct TrainingConfig trainingConfig;

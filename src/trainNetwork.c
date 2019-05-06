@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include "types.h"
@@ -5,6 +6,7 @@
 #include "networkUtils.h"
 #include "consoleUtils.h"
 
+// Train the network using a simplified genetic algorithm
 void trainNetwork(struct Network *network,
                   struct TrainingData *trainingData,
                   struct TrainingConfig *trainingConfig)

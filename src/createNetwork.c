@@ -38,7 +38,7 @@ struct Network *createNetwork(struct NetworkConfig *networkConfig)
     }
 
     int edgeIndex = 0;
-    
+
     // Create edges from inputLayer to hiddenLayer
     for (int i = 0; i < network->inputLength; i++)
     {
