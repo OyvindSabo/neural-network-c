@@ -28,7 +28,7 @@ Compile and run the program like this:
 make demo
 ```
 
-If you get thne response `make: 'demo' is up to date.` run the program like this:
+If you get the response `make: 'demo' is up to date.` run the program like this:
 
 ```bash
 ./demo`
