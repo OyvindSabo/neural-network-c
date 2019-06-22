@@ -14,7 +14,7 @@ $ make
 make main
 ```
 
-If you get te response `make: 'main' is up to date.`, run the program like this:
+If you get the response `make: 'main' is up to date.`, run the program like this:
 
 ```bash
 ./main`
@@ -28,7 +28,7 @@ Compile and run the program like this:
 make demo
 ```
 
-If you get te response `make: 'demo' is up to date.` run the program like this:
+If you get the response `make: 'demo' is up to date.` run the program like this:
 
 ```bash
 ./demo`
@@ -42,7 +42,7 @@ Compile and run the program like this:
 make test
 ```
 
-If you get te response `make: 'test' is up to date.` run the program like this:
+If you get the response `make: 'test' is up to date.` run the program like this:
 
 ```bash
 ./test`
